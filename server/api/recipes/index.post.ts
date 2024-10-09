@@ -22,9 +22,9 @@ export default defineAuthEventHandler(async (event) => {
       instructions: body.instructions,
       servings: body.servings,
       cookTime: body.cookTime,
-      imageUrl: body.imageUrl,
+      imageUrl: body.imageUrl || null,
       userId: userId,
-      createdAt: new Date(),
+      createdAt: body.createdAt || new Date(),
     }).returning()
 
     // Insert ingredients

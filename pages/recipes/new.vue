@@ -43,8 +43,9 @@
       </div>
 
       <div class="mb-4">
-        <label for="imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label>
-        <input v-model="recipe.imageUrl" type="url" id="imageUrl" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+       <label for="imageUpload" class="block text-sm font-medium text-gray-700">Main Image</label>
+  <input type="file" id="imageUpload" @change="handleImageUpload" accept="image/*" class="mt-1 block w-full">
+  <img v-if="recipe.imageUrl" :src="recipe.imageUrl" alt="Recipe image preview" class="mt-2 h-32 object-cover">
       </div>
 
       <div class="mt-8">
@@ -81,7 +82,27 @@ const addIngredient = () => {
 const removeIngredient = (index: number) => {
   recipe.value.ingredients.splice(index, 1)
 }
+const handleImageUpload = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    const formData = new FormData()
+    formData.append('image', file)
 
+    try {
+      const { data } = await useAuthFetch('/api/upload/image', {
+        method: 'POST',
+        body: formData
+      })
+
+      if (data.value && data.value.url) {
+        recipe.value.imageUrl = data.value.url
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      // Handle error (e.g., show error message to user)
+    }
+  }
+}
 const submitRecipe = async () => {
   try {
     const { data } = await useAuthFetch('/api/recipes', {

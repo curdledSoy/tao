@@ -14,6 +14,14 @@ export default defineNuxtConfig({
     '/recipes': {appMiddleware: ['auth']}
     // Add more protected routes as needed
   },
+  nitro: {
+    publicAssets: [
+      {
+        dir: 'public/uploads',
+        maxAge: 60 * 60 * 24 * 7 // 1 week
+      }
+    ]
+  },
 
   modules: ['@nuxtjs/tailwindcss', '@nuxt/icon']
 })

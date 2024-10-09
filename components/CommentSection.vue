@@ -29,7 +29,7 @@ const props = defineProps<{
     id: number
     author: string
     content: string
-    createdAt: string
+    createdAt: Date
   }>
 }>()
 
@@ -52,7 +52,7 @@ const submitComment = async () => {
   }
 }
 
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString()
+const formatDate = (dateString: Date) => {
+  return new Date(dateString).toLocaleString()
 }
 </script>

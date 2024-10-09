@@ -15,9 +15,10 @@ export default defineEventHandler(async (event) => {
     description: tables.recipes.description,
     imageUrl: tables.recipes.imageUrl,
     userId: tables.recipes.userId,
+    author: tables.users.username,
     createdAt: tables.recipes.createdAt,
     likes: sql<number>`(SELECT COUNT(*) FROM ${tables.likes} WHERE ${tables.likes.recipeId} = ${tables.recipes.id})`.as('likes_count'),
-  }).from(tables.recipes).$dynamic()
+  }).from(tables.recipes).$dynamic().innerJoin(tables.users, eq(tables.recipes.userId, tables.users.id))
 
 
   if (userId) {

@@ -9,7 +9,7 @@ export const users = sqliteTable("users", {
     password: text("password").notNull(),
     bio: text("bio"),
     profilePicture: text("profile_picture"),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(current_timestamp)`),
+    createdAt: integer("created_at", { mode:"timestamp" }).notNull().default(sql`(unixepoch())`),
     private: integer("is_private", { mode: "boolean" }),
 });
 
@@ -24,7 +24,7 @@ export const recipes = sqliteTable("recipes", {
     cookTime: integer("cook_time"),  // Time in minutes
     imageUrl: text("image_url"),
     isDraft: integer("is_draft", { mode: "boolean" }),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(current_timestamp)`),
+    createdAt: integer("created_at", { mode:"timestamp" }).notNull().default(sql`(unixepoch())`),
     publishedOn: integer("published_on", { mode: "timestamp" })
 });
 
@@ -48,7 +48,7 @@ export const comments = sqliteTable("comments", {
     userId: integer("user_id").references(() => users.id).notNull(),
     recipeId: integer("recipe_id").references(() => recipes.id).notNull(),
     comment: text("comment").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(current_timestamp)`),
+    createdAt: integer("created_at", { mode:"timestamp" }).notNull().default(sql`(unixepoch())`),
 });
 
 // Likes Table
@@ -56,12 +56,12 @@ export const likes = sqliteTable("likes", {
     id: integer("id").primaryKey({ autoIncrement: true }),
     userId: integer("user_id").references(() => users.id).notNull(),
     recipeId: integer("recipe_id").references(() => recipes.id).notNull(),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(current_timestamp)`),
+    createdAt: integer("created_at", { mode:"timestamp" }).notNull().default(sql`(unixepoch())`),
 });
 
 // Follows Table
 export const follows = sqliteTable("follows", {
     followerId: integer("follower_id").references(() => users.id).notNull(),
     followingId: integer("following_id").references(() => users.id).notNull(),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull().default(sql`(current_timestamp)`),
+    createdAt: integer("created_at", { mode:"timestamp" }).notNull().default(sql`(unixepoch())`),
 });
